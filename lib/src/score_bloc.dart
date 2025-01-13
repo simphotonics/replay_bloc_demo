@@ -8,28 +8,37 @@ class ScoreBloc extends ReplayBloc<MatchEvent, ScoreState> {
   ScoreBloc() : super(ScoreInitial()) {
     on<MatchEvent>((event, emit) => switch (event) {
           AwardPointTeam1() => emit(
-              ScoreState(state.scoreTeam1 + 1, state.scoreTeam2),
+              ScoreState(state.scoreTeam1 + _pointValue, state.scoreTeam2),
             ),
           AwardPointTeam2() => emit(
-              ScoreState(state.scoreTeam1, state.scoreTeam2 + 1),
+              ScoreState(state.scoreTeam1, state.scoreTeam2 + _pointValue),
             ),
           ReplayPoint() => emit(_replayPoint()),
         });
   }
 
+  int _pointValue = 1;
+
   ScoreState _replayPoint() {
     undo();
     return state;
+    // return ScoreState(state.scoreTeam1, 99);
   }
 
   @override
   void onTransition(covariant Transition<ReplayEvent, ScoreState> transition) {
     super.onTransition(transition);
-    print('onTransition -> handling event: ${transition.event.runtimeType}');
-    
+
     if (transition.event is ReplayPoint) {
-      print(
-          '  Doing something during event ReplayPoint. '); // <-- Never reached.
+      if ((transition.nextState.scoreTeam1 - transition.nextState.scoreTeam2)
+              .abs() >
+          1) {
+        _pointValue = 2;
+      }
+      // <-- Never reached.
+      print('  Doing something during event ReplayPoint. ');
     }
+
+    print('onTransition -> $transition _pointValue: $_pointValue');
   }
 }
