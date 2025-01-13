@@ -21,8 +21,7 @@ class ScoreBloc extends ReplayBloc<MatchEvent, ScoreState> {
 
   ScoreState _replayPoint() {
     undo();
-    return state;
-    // return ScoreState(state.scoreTeam1, 99);
+    return ScoreState(state.scoreTeam1, state.scoreTeam2);
   }
 
   @override
@@ -35,10 +34,8 @@ class ScoreBloc extends ReplayBloc<MatchEvent, ScoreState> {
           1) {
         _pointValue = 2;
       }
-      // <-- Never reached.
-      print('  Doing something during event ReplayPoint. ');
     }
 
-    print('onTransition -> $transition _pointValue: $_pointValue');
+    print('$transition _pointValue: $_pointValue');
   }
 }

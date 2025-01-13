@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 /// Bloc state
-final class ScoreState with EquatableMixin {
+final class ScoreState with EquatableMixin{
   const ScoreState(this.scoreTeam1, this.scoreTeam2);
   final int scoreTeam1;
   final int scoreTeam2;
